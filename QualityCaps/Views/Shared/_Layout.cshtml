@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - QualityCaps</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/react.css" />
+        <link rel="stylesheet" href="~/css/shoppingcart.css" />
+        <link rel="stylesheet" href="~/css/footer.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body >
+<div id="main">
+    <div class="fixed">
+      <span id="shopping-cart" style="font-size:30px;cursor:pointer;right:0px" onclick="openNav()"><img class="shopping-cart" src="~/images/shopping-cart.png"/></span>
+    </div>
+    <nav id="navbar" class="navbar navbar-inverse navbar-fixed-top" >
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" style=" color:palevioletred; font-size:20px; font:bold;" ><img src="~/images/logo.jpg" style="height:50px;padding:0px;" alt="ASP.NET" class="img-responsive" /></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:dimgray">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:black" ;">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:dimgray">Contact</a></li>
+
+                 @if (User.IsInRole("Admin"))
+                {
+                <li><a asp-area="" asp-controller="AdminApplicationUsers" asp-action="Index" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:dimgray" ;">Members</a></li>
+                <li><a asp-area="" asp-controller="Orders" asp-action="Index" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:black">Orders</a></li>
+                <li><a asp-area="" asp-controller="Caps" asp-action="Index" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:dimgray;">Caps</a></li>
+                <li><a asp-area="" asp-controller="Suppliers" asp-action="Index" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:black">Suppliers</a></li>
+                <li><a asp-area="" asp-controller="Categories" asp-action="Index" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:dimgray;">Categories</a></li>
+                }
+                else
+                {
+                <li><a asp-area="" asp-controller="MemberCaps" asp-action="Index" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:black">Caps</a></li>
+                }
+                @if (User.IsInRole("Member")) 
+                {
+                <li><a asp-area="" asp-controller="Orders" asp-action="OrdersPlaced" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:black">View Orders</a></li>
+                }
+                </ul>
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+    <div id="myNav" class="overlay">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <div class="overlay-content">
+                @if (!User.IsInRole("Admin"))
+                {@await Component.InvokeAsync("ShoppingCartViewModel")}
+            </div>
+       </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+
+    </div>
+</div>
+    <footer id="fh5co-footer" class="fh5co-bg" role="contentinfo">
+		<div class="row copyright">
+				<div class="col-md-12 text-center">
+					<p>
+						<small class="block">&copy; 2017 | All Rights Reserved.</small> 
+						<small class="block">Powered by  siteName.com</small>
+					</p>
+				</div>
+			</div>
+	</footer>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

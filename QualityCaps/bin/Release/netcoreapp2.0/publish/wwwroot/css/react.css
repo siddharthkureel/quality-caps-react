@@ -1,0 +1,20 @@
+.align{
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+}
+.card{
+    text-align: center;
+}
+.price{
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+}
+.up,.down{
+    cursor: pointer;
+    font-size: 20px;
+}
+.margin{
+    margin:0px 20px;
+}
+
