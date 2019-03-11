@@ -15,7 +15,7 @@ class App extends React.Component{
     }
     
     componentDidMount (){
-        axios.get("http://joykureel-001-site1.ctempurl.com/api/Capsapi").then(response => {
+        axios.get("http://localhost:5001/api/Capsapi").then(response => {
             //console.log(response.data);  
             this.setState({
                 caps: response.data
